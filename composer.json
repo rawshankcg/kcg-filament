@@ -1,7 +1,7 @@
 {
     "name": "kcg/kcg-filament",
     "description": "FilamentPHP User Management Package",
-    "type": "laravel-package",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -10,8 +10,8 @@
     },
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your@email.com"
+            "name": "rawshankcg",
+            "email": "rawshan@kingscrestglobal.com"
         }
     ],
     "require": {
