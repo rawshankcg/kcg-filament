@@ -24,5 +24,6 @@
                 "Kcg\\KcgFilament\\KcgFilamentServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
