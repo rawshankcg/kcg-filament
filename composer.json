@@ -1,0 +1,28 @@
+{
+    "name": "kcg/kcg-filament",
+    "description": "FilamentPHP User Management Package",
+    "type": "laravel-package",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kcg\\KcgFilament\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Your Name",
+            "email": "your@email.com"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^12.0",
+        "filament/filament": "^3.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kcg\\KcgFilament\\KcgFilamentServiceProvider"
+            ]
+        }
+    }
+}
