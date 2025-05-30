@@ -1,21 +1,22 @@
 <?php
 
-namespace Kcg\KcgFilament\Resources;
+namespace Kcg\Filament\Resources;
 
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
+use Kcg\Filament\Resources\UserResource\Pages;
 
 class UserResource extends Resource
 {
-  protected static ?string $model = \App\Models\User::class;
-
+  protected static ?string $model = User::class;
   protected static ?string $navigationIcon = 'heroicon-o-users';
-
-  protected static ?int $navigationSort = 1;
+  protected static ?string $navigationLabel = 'Users';
+  protected static ?string $modelLabel = 'User';
+  protected static ?string $pluralModelLabel = 'Users';
 
   public static function form(Form $form): Form
   {
@@ -27,22 +28,14 @@ class UserResource extends Resource
         Forms\Components\TextInput::make('email')
           ->email()
           ->required()
-          ->maxLength(255),
+          ->maxLength(255)
+          ->unique(User::class, 'email', ignoreRecord: true),
         Forms\Components\DateTimePicker::make('email_verified_at'),
         Forms\Components\TextInput::make('password')
           ->password()
-          ->required()
-          ->maxLength(255)
-          ->hiddenOn('edit')
-          ->visibleOn('create'),
-        Forms\Components\Select::make('roles')
-          ->relationship('roles', 'name')
-          ->multiple()
-          ->preload(),
-        Forms\Components\Select::make('permissions')
-          ->relationship('permissions', 'name')
-          ->multiple()
-          ->preload(),
+          ->required(fn(string $context): bool => $context === 'create')
+          ->minLength(8)
+          ->dehydrated(fn($state): bool => filled($state)),
       ]);
   }
 
@@ -50,10 +43,14 @@ class UserResource extends Resource
   {
     return $table
       ->columns([
+        Tables\Columns\TextColumn::make('id')
+          ->sortable(),
         Tables\Columns\TextColumn::make('name')
-          ->searchable(),
+          ->searchable()
+          ->sortable(),
         Tables\Columns\TextColumn::make('email')
-          ->searchable(),
+          ->searchable()
+          ->sortable(),
         Tables\Columns\TextColumn::make('email_verified_at')
           ->dateTime()
           ->sortable(),
@@ -61,15 +58,9 @@ class UserResource extends Resource
           ->dateTime()
           ->sortable()
           ->toggleable(isToggledHiddenByDefault: true),
-        Tables\Columns\TextColumn::make('updated_at')
-          ->dateTime()
-          ->sortable()
-          ->toggleable(isToggledHiddenByDefault: true),
       ])
       ->filters([
-        Tables\Filters\Filter::make('verified')
-          ->query(fn(Builder $query) => $query->whereNotNull('email_verified_at'))
-          ->label('Verified Users'),
+        //
       ])
       ->actions([
         Tables\Actions\EditAction::make(),
@@ -82,24 +73,12 @@ class UserResource extends Resource
       ]);
   }
 
-  public static function getRelations(): array
-  {
-    return [
-      //
-    ];
-  }
-
   public static function getPages(): array
   {
     return [
-      'index' => \Kcg\KcgFilament\Resources\UserResource\Pages\ListUsers::route('/'),
-      'create' => \Kcg\KcgFilament\Resources\UserResource\Pages\CreateUser::route('/create'),
-      'edit' => \Kcg\KcgFilament\Resources\UserResource\Pages\EditUser::route('/{record}/edit'),
+      'index' => Pages\ListUsers::route('/'),
+      'create' => Pages\CreateUser::route('/create'),
+      'edit' => Pages\EditUser::route('/{record}/edit'),
     ];
-  }
-
-  public static function getNavigationGroup(): ?string
-  {
-    return config('kcg-filament.navigation_group', 'System');
   }
 }

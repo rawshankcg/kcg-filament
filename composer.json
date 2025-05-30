@@ -1,29 +1,24 @@
 {
-    "name": "kcg/kcg-filament",
-    "description": "FilamentPHP User Management Package",
+    "name": "kcg/filament",
+    "description": "KCG Filament package for user management",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kcg\\KcgFilament\\": "src/"
+            "Kcg\\Filament\\": "src/"
         }
-    },
-    "authors": [
-        {
-            "name": "rawshankcg",
-            "email": "rawshan@kingscrestglobal.com"
-        }
-    ],
-    "require": {
-        "laravel/framework": "^12.0",
-        "filament/filament": "^3.0"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Kcg\\KcgFilament\\KcgFilamentServiceProvider"
+                "Kcg\\Filament\\KcgFilamentServiceProvider"
             ]
         }
+    },
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^3.0",
+        "illuminate/contracts": "^11.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

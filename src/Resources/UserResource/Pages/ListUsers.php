@@ -1,8 +1,8 @@
 <?php
 
-namespace Kcg\KcgFilament\Resources\UserResource\Pages;
+namespace Kcg\Filament\Resources\UserResource\Pages;
 
-use Kcg\KcgFilament\Resources\UserResource;
+use Kcg\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

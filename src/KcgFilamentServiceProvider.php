@@ -1,39 +1,35 @@
 <?php
 
-namespace Kcg\KcgFilament;
+namespace Kcg\Filament;
 
-use Filament\Contracts\Plugin;
-use Filament\Panel;
-use Kcg\KcgFilament\Resources\UserResource;
+use Filament\Support\Assets\Asset;
+use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class KcgFilamentServiceProvider extends PackageServiceProvider implements Plugin
+class KcgFilamentServiceProvider extends PackageServiceProvider
 {
-  public function configurePanel(Panel $panel): void
-  {
-    $panel
-      ->resources([
-        UserResource::class,
-      ]);
-  }
-
   public function configurePackage(Package $package): void
   {
     $package
       ->name('kcg-filament')
-      ->hasConfigFile()
-      ->hasViews()
-      ->hasMigration('add_user_fields')
-      ->hasTranslations();
+      ->hasConfigFile();
   }
 
-  public function boot()
+  public function packageBooted(): void
   {
-    parent::boot();
+    // Auto-discover resources
+    $this->discoverResources();
+  }
 
-    Panel::configureUsing(function (Panel $panel) {
-      $panel->plugin($this);
+  protected function discoverResources(): void
+  {
+    // Auto-register the UserResource
+    \Filament\Facades\Filament::serving(function () {
+      \Filament\Facades\Filament::getCurrentPanel()
+        ->resources([
+          Resources\UserResource::class,
+        ]);
     });
   }
 }

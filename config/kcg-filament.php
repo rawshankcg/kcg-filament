@@ -1,5 +1,9 @@
 <?php
 
 return [
-  'navigation_group' => 'System',
+  'user_resource' => [
+    'enabled' => true,
+    'navigation_group' => null,
+    'navigation_sort' => null,
+  ],
 ];
